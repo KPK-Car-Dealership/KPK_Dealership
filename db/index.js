@@ -5,6 +5,7 @@ const { Admin } = require("./Admin");
 
 module.exports = {
   Car,
+  User,
   sequelize,
   Sequelize,
 };
