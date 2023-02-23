@@ -6,10 +6,11 @@ const app = express();
 const { PORT = 3000 } = process.env;
 const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, ADMIN_KEY } = process.env;
 const { auth } = require("express-openid-connect");
 
 const { Car, User } = require("./db");
+const { Admin } = require("./db/Admin");
 
 // middleware
 app.use(cors());
@@ -49,14 +50,45 @@ app.use(async (req, res, next) => {
 
 // auth middleware to use JWT and set the returned data as req.user
 const setUser = async (req, res, next) => {
-  const auth = req.header("Authorization");
-  if (!auth) {
-    next();
-  } else {
-    const [, token] = auth.split(" ");
-    const user = jwt.verify(token, JWT_SECRET);
-    req.user = user;
-    next();
+  try {
+    const auth = req.header("Authorization");
+    if (!auth) {
+      next();
+    } else {
+      const [, token] = auth.split(" ");
+      const user = jwt.verify(token, JWT_SECRET);
+      req.user = user;
+      next();
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const confirmAdmin = async (req, res, next) => {
+  try {
+    if (!req.user || typeof req.oidc.user == undefined) next();
+    else {
+      const admin = req.header("Admin");
+      if (!admin) next();
+      else {
+        const verifyAdmin = admin === ADMIN_KEY;
+        if (verifyAdmin) {
+          let adminAccount = await Admin.findOrCreate({
+            where: {
+              username: req.user.username,
+              name: req.user.name,
+              password: req.user.password,
+              email: req.user.email,
+            },
+          });
+          req.admin = adminAccount;
+          next();
+        } else next();
+      }
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -102,14 +134,32 @@ app.get("/me", async (req, res, next) => {
   }
 });
 
-app.post("/", async (req, res, next) => {
-  res.send("post route");
+app.post("/", setUser, confirmAdmin, async (req, res, next) => {
+  try {
+    if (req.admin) {
+      res.send("post route");
+    } else res.sendStatus(401);
+  } catch (error) {
+    next(error);
+  }
 });
-app.delete("/", async (req, res, next) => {
-  res.send("delete route");
+app.delete("/", setUser, confirmAdmin, async (req, res, next) => {
+  try {
+    if (req.admin) {
+      res.send("delete route");
+    } else res.sendStatus(401);
+  } catch (error) {
+    next(error);
+  }
 });
-app.put("/", async (req, res, next) => {
-  res.send("put route");
+app.put("/", setUser, confirmAdmin, async (req, res, next) => {
+  try {
+    if (req.admin) {
+      res.send("put route");
+    } else res.sendStatus(401);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // error handling middleware
