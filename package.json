@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client-dev": "parcel src/index.html --open",
+    "client-dev": "parcel client/index.html --open",
     "server-dev": "nodemon server.js",
     "seed": "node db/seed.js",
     "test": "jest --detectOpenHandles"

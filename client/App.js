@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+
 function App () {
 
-    // const [userList, setUserList] = useState([]);
-    // const [userFilteredList, setUserFilteredList] = useState([]);
+    const [carsList, setCarsList] = useState([]);
+    const [carsFilteredList, setCarsFilteredList] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //     const res = await fetch(disneyCharApi);
-    //     const data = await res.json();
-    //     setUserList(data.data);
-    //     setUserFilteredList(data.data);
-    //     console.log(userList);
-    //     // console.log(typeof cards);
-    //   }
-    //     fetchData()
-    //       .catch(console.error);
-    //     }, []);
+      useEffect(() => {
+        const fetchData = async () => {
+        const res = await fetch(`http://localhost:3000/cars`);
+        const data = await res.json();
+        setCarsList(data);
+        setCarsFilteredList(data);
+        console.log(data)
+      }
+        fetchData()
+          .catch(console.error);
+        }, []);
 
     return (
         // <FavoritesProvider>
