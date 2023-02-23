@@ -1,6 +1,6 @@
 require("dotenv").config(".env");
 // Token retrieved from /me route after logging user in
-const { TOKEN } = process.env;
+const { TOKEN, ADMIN_KEY } = process.env;
 
 const request = require("supertest");
 
@@ -29,6 +29,17 @@ describe("Endpoints", () => {
       expect(response.body[0].color).toEqual(cars[0].color);
       expect(response.body[0].model).toEqual(cars[0].model);
       expect(response.body[0].image).toEqual(cars[0].image);
+    });
+  });
+
+  describe("POST /cars", () => {
+    it("should return a list of cars", async () => {
+      const response = await request(app)
+        .post("/")
+        .set({ Authorization: `Bearer ${TOKEN}`, Admin: ADMIN_KEY });
+
+      expect(response.status).toBe(200);
+      expect(response.text).toEqual("post route");
     });
   });
 });
