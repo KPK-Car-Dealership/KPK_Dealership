@@ -3,7 +3,6 @@ require("dotenv").config(".env");
 const cors = require("cors");
 const express = require("express");
 const app = express();
-const { PORT = 3000 } = process.env;
 const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, ADMIN_KEY } = process.env;
@@ -65,8 +64,10 @@ const setUser = async (req, res, next) => {
   }
 };
 
+// Confirms user is logged in and verifies admin status by checking admin key matches
 const confirmAdmin = async (req, res, next) => {
   try {
+    // Checks if user logged in through Auth or sent a valid token
     if (!req.user || typeof req.oidc.user == undefined) next();
     else {
       const admin = req.header("Admin");
@@ -97,19 +98,42 @@ app.get("/", (req, res, next) => {
   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
 });
 
+app.get("/user/token", async (req, res, next) => {
+  try {
+    if (req.oidc.user) {
+      const user = await User.findOne({
+        where: { username: req.oidc.user.nickname },
+        raw: true,
+      });
+
+      const token = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
+      res.send({ user, token });
+    } else {
+      // Sends 401 code if user is not accessing route after signing in with Auth0
+      res.sendStatus(401);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 app.get("/cars", setUser, async (req, res, next) => {
   try {
     let user;
+    // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
         where: { username: req?.oidc?.user?.nickname },
       });
     }
 
+    // Returns the list of cars if user sends a token(for testing, req.user) or logins in through Auth0 (user)
     if (req.user || user) {
       const cars = await Car.findAll();
       res.send(cars);
     } else {
+      // Sends 401 status code if user not logged in or sends a token
       res.sendStatus(401);
     }
   } catch (error) {
@@ -118,45 +142,118 @@ app.get("/cars", setUser, async (req, res, next) => {
   }
 });
 
-app.get("/me", async (req, res, next) => {
+app.get("/cars/:id", setUser, async (req, res, next) => {
   try {
-    const user = await User.findOne({
-      where: { username: req.oidc.user.nickname },
-      raw: true,
-    });
-    if (user) {
-      const token = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
-      res.send({ user, token });
+    let user;
+    // If user is logged in through Auth0 find their user data in the database
+    if (req.oidc.user) {
+      user = await User.findOne({
+        where: { username: req?.oidc?.user?.nickname },
+      });
+    }
+
+    // Returns the car if user sends a token(for testing, req.user) or logins in through Auth0 (user)
+    if (req.user || user) {
+      // Finds car in database and returns car if found
+      const { id } = req.params;
+      const car = await Car.findByPk(id);
+      if (car == null) {
+        res.status(404).send(`Car not found`);
+      } else {
+        res.send(car);
+      }
+    } else {
+      // Sends 401 status code if user not logged in or does not send a token
+      res.sendStatus(401);
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });
 
-app.post("/", setUser, confirmAdmin, async (req, res, next) => {
+// Returns token to be used for testing after user logs in through Auth0
+
+app.post("/cars", setUser, confirmAdmin, async (req, res, next) => {
   try {
+    // req.admin set by setUser and confirmAdmin middleware
     if (req.admin) {
-      res.send("post route");
-    } else res.sendStatus(401);
+      // Checks req.body object matches Car schema
+      for (let attributes in Car.tableAttributes) {
+        if (
+          !attributes.match("id") &&
+          !attributes.match("createdAt") &&
+          !attributes.match("updatedAt")
+        ) {
+          if (!req.body[attributes].trim()) {
+            return res.status(404).send(`${attributes} not defined`);
+          }
+        }
+      }
+
+      const car = await Car.create(req.body);
+      const allCars = await Car.findAll();
+
+      res.send(allCars);
+    } else {
+      // Sends 401 status code if user not logged in or does not send a token
+      res.sendStatus(401);
+    }
   } catch (error) {
     next(error);
   }
 });
-app.delete("/", setUser, confirmAdmin, async (req, res, next) => {
+app.delete("/cars/:id", setUser, confirmAdmin, async (req, res, next) => {
   try {
+    // req.admin set by setUser and confirmAdmin middleware
     if (req.admin) {
-      res.send("delete route");
-    } else res.sendStatus(401);
+      // Finds car in database and deletes car if found
+      const { id } = req.params;
+      const car = await Car.findByPk(id);
+      if (car == null) {
+        res.status(404).send(`Car not found`);
+      } else {
+        await car.destroy();
+        const allCars = await Car.findAll();
+
+        res.send(allCars);
+      }
+    } else {
+      // Sends 401 status code if the user not logged in or does not send a token
+      res.sendStatus(401);
+    }
   } catch (error) {
     next(error);
   }
 });
-app.put("/", setUser, confirmAdmin, async (req, res, next) => {
+app.put("/cars/:id", setUser, confirmAdmin, async (req, res, next) => {
   try {
     if (req.admin) {
-      res.send("put route");
-    } else res.sendStatus(401);
+      // Finds car in database and updates car if found
+      const { id } = req.params;
+      const car = await Car.findByPk(id);
+      if (car == null) {
+        res.status(404).send(`Car not found`);
+      } else {
+        // Checks req.body to update car fields where there are defined fields
+        for (let attributes in Car.tableAttributes) {
+          if (
+            !attributes.match("id") &&
+            !attributes.match("createdAt") &&
+            !attributes.match("updatedAt")
+          ) {
+            if (req.body[attributes].trim()) {
+              car.update({ [attributes]: req.body[attributes] });
+            }
+          }
+        }
+
+        res.send(car);
+      }
+    } else {
+      // Sends 401 status code if user not logged in or does not send a token
+      res.sendStatus(401);
+    }
   } catch (error) {
     next(error);
   }
