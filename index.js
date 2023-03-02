@@ -83,6 +83,7 @@ const confirmAdmin = async (req, res, next) => {
               email: req.user.email,
             },
           });
+          // Adds admin object to req object. req.admin is checked in the route to verify this process has been completed
           req.admin = adminAccount;
           next();
         } else next();
@@ -133,7 +134,7 @@ app.get("/cars", setUser, async (req, res, next) => {
       const cars = await Car.findAll();
       res.send(cars);
     } else {
-      // Sends 401 status code if user not logged in or sends a token
+      //   // Sends 401 status code if user not logged in or sends a token
       res.sendStatus(401);
     }
   } catch (error) {
