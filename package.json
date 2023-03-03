@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/KPK-Car-Dealership/KPK_Dealership#readme",
   "dependencies": {
+    "@auth0/auth0-react": "^2.0.1",
     "bootstrap": "^5.2.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -34,7 +35,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1",
+    "react-router-dom": "^6.8.2",
     "sequelize": "^6.28.0",
     "sqlite3": "^5.1.4"
   },

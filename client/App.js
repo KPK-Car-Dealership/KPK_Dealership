@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+const JWT_TOKEN = process.env.REACT_APP_JWT_TOKEN;
+
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
 function App() {
   const [carsList, setCarsList] = useState([]);
@@ -13,27 +17,39 @@ function App() {
         crossorigin: true,
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJwYXRyaWNrYm9yZ2VsbGExIiwibmFtZSI6IlBhdHJpY2sgQm9yZ2VsbGEgSnIiLCJwYXNzd29yZCI6bnVsbCwiZW1haWwiOiJwYXRyaWNrYm9yZ2VsbGExQGdtYWlsLmNvbSIsImNyZWF0ZWRBdCI6IjIwMjMtMDMtMDIgMTc6NDg6NDEuNTgwICswMDowMCIsInVwZGF0ZWRBdCI6IjIwMjMtMDMtMDIgMTc6NDg6NDEuNTgwICswMDowMCIsImlhdCI6MTY3Nzc4OTMwOSwiZXhwIjoxNjc4Mzk0MTA5fQ.lZ-6Aj8tmzdDQxAFZedJNBybAwWTjNRcOcr9GcuJgvc",
+            `Bearer ${JWT_TOKEN}`,
         },
       });
       const data = await res.json();
       console.log(data);
-      // return data;
+      setCarsList(data);
+      console.log(carsList)
     };
     fetchData().catch();
   }, []);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetch(`http://localhost:3000/cars`);
-  //     const data = await res.json();
-  //     setCarsList(data);
-  //     setCarsFilteredList(data);
-  //     console.log(data);
-  //   };
-  //   fetchData().catch(console.error);
-  // }, []);
 
   return (
+    <>
+      <main>
+        <h1>Auth0 Login</h1>
+        <LoginButton />
+        <LogoutButton />
+      </main>
+      <h1>Cars Cars come get ya cars!!</h1>
+      {carsList.map((car, idx) => (
+        <div>
+          <h2>Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:{car.model}- Price:{car.price}</h2>
+          <img src={car.image} alt="car" width="250" height="250"></img>
+        </div>
+      ))}
+    </>
+
+  );
+}
+
+export { App };
+
+
     // <FavoritesProvider>
     //     <BrowserRouter>
     //         <div data-testid="app">
@@ -47,8 +63,3 @@ function App() {
     //         </div>
     //     </BrowserRouter>
     // </FavoritesProvider>
-    <h1>Hello is this working???</h1>
-  );
-}
-
-export { App };
