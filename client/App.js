@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+const JWT_TOKEN = process.env.REACT_APP_JWT_TOKEN;
+
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
 function App() {
   const [carsList, setCarsList] = useState([]);
@@ -9,27 +13,19 @@ function App() {
     const fetchData = async () => {
       const res = await fetch("http://localhost:3000/cars", {
         headers: {
-          Authorization: `Bearer ${process.env.TOKEN}`,
+          Authorization: `Bearer ${JWT_TOKEN}`,
         },
       }).then(async (response) => {
         const data = await response.json();
         console.log(data);
       });
-
-      // return data;
+      const data = await res.json();
+      setCarsList(data);
+      setCarsFilteredList(data);
+      console.log(data);
     };
-    fetchData().catch();
+    fetchData().catch(console.error);
   }, []);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const res = await fetch(`http://localhost:3000/cars`);
-  //     const data = await res.json();
-  //     setCarsList(data);
-  //     setCarsFilteredList(data);
-  //     console.log(data);
-  //   };
-  //   fetchData().catch(console.error);
-  // }, []);
 
   return (
     // <FavoritesProvider>
@@ -45,9 +41,7 @@ function App() {
     //         </div>
     //     </BrowserRouter>
     // </FavoritesProvider>
-    <div>
-      <h1>Hello is this working???</h1>
-    </div>
+    <h1>Hello is this working???</h1>
   );
 }
 
