@@ -8,16 +8,14 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("http://localhost:3000/cars", {
-        method: "GET",
-        withCredentials: true,
-        crossorigin: true,
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJwYXRyaWNrYm9yZ2VsbGExIiwibmFtZSI6IlBhdHJpY2sgQm9yZ2VsbGEgSnIiLCJwYXNzd29yZCI6bnVsbCwiZW1haWwiOiJwYXRyaWNrYm9yZ2VsbGExQGdtYWlsLmNvbSIsImNyZWF0ZWRBdCI6IjIwMjMtMDMtMDIgMTc6NDg6NDEuNTgwICswMDowMCIsInVwZGF0ZWRBdCI6IjIwMjMtMDMtMDIgMTc6NDg6NDEuNTgwICswMDowMCIsImlhdCI6MTY3Nzc4OTMwOSwiZXhwIjoxNjc4Mzk0MTA5fQ.lZ-6Aj8tmzdDQxAFZedJNBybAwWTjNRcOcr9GcuJgvc",
+          Authorization: `Bearer ${process.env.TOKEN}`,
         },
+      }).then(async (response) => {
+        const data = await response.json();
+        console.log(data);
       });
-      const data = await res.json();
-      console.log(data);
+
       // return data;
     };
     fetchData().catch();
@@ -47,7 +45,9 @@ function App() {
     //         </div>
     //     </BrowserRouter>
     // </FavoritesProvider>
-    <h1>Hello is this working???</h1>
+    <div>
+      <h1>Hello is this working???</h1>
+    </div>
   );
 }
 
