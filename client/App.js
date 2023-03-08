@@ -8,6 +8,7 @@ import LogoutButton from "./components/LogoutButton";
 function App() {
   const [carsList, setCarsList] = useState([]);
   const [carsFilteredList, setCarsFilteredList] = useState([]);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +42,10 @@ function App() {
     //         </div>
     //     </BrowserRouter>
     // </FavoritesProvider>
-    <h1>Hello is this working???</h1>
+    <div>
+      <h1>Hello is this working???</h1>
+      <LoginButton />
+    </div>
   );
 }
 

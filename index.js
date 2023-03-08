@@ -101,7 +101,7 @@ app.get("/", (req, res, next) => {
 
 app.get("/user/token", async (req, res, next) => {
   try {
-    if (req.oidc.user) {
+    if (req.oidc.user || req.user) {
       const user = await User.findOne({
         where: { username: req.oidc.user.nickname },
         raw: true,
