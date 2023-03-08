@@ -4,6 +4,10 @@ const JWT_TOKEN = process.env.REACT_APP_JWT_TOKEN;
 
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
+const JWT_TOKEN = process.env.REACT_APP_JWT_TOKEN;
+
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
 function App() {
   const [carsList, setCarsList] = useState([]);
@@ -29,6 +33,27 @@ function App() {
   }, []);
 
   return (
+    <>
+      <main>
+        <h1>Auth0 Login</h1>
+        <LoginButton />
+        <LogoutButton />
+      </main>
+      <h1>Cars Cars come get ya cars!!</h1>
+      {carsList.map((car, idx) => (
+        <div>
+          <h2>Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:{car.model}- Price:{car.price}</h2>
+          <img src={car.image} alt="car" width="250" height="250"></img>
+        </div>
+      ))}
+    </>
+
+  );
+}
+
+export { App };
+
+
     // <FavoritesProvider>
     //     <BrowserRouter>
     //         <div data-testid="app">
