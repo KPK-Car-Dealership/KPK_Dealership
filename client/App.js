@@ -30,10 +30,10 @@ function App() {
 
   return (
     <>
+      <button><a href="http://localhost:3000/login">Login</a></button>
       <main>
-        <h1>Auth00 Login</h1>
-        <LoginButton />
-        <LogoutButton />
+        {/* <LoginButton />
+        <LogoutButton /> */}
       </main>
       <h1>Cars Cars come get ya cars!!</h1>
       {carsList && carsList.map((car, idx) => (

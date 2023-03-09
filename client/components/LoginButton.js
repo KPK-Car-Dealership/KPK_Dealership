@@ -4,8 +4,48 @@ import "./LoginButton.css";
 function LoginButton() {
   const { loginWithPopup, isAuthenticated } = useAuth0();
 
-  function sumbitHandler(e) {
-    console.log(e);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+    const response = await fetch(`http:localhost:3000/users/login`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+        {
+            email: title,
+            password: price,
+            nickname: description,
+            name: category,
+        }
+        )
+      });
+      const data = await response.json();
+
+    //   console.log(data.title)
+    //   I need bottom code if not I have to manually refresh to see the new submitted page
+    // ! React expects a completely new value - I need to use spread syntax to render a new array (new array will have brand new item created when clicking the submit button)
+      setItems([...items,
+            data
+        ]);
+
+        setTitle("");
+        setPrice("");
+        setDescription("");
+        setCategory("");
+        setImage("");
+        setRating("")
+
+        setAddItems(false)
+
+    } catch (err) {
+        console.log("form error", err)
+    }  
+
+    setAddItems(false)
+
+
   }
 
   return (
@@ -18,7 +58,7 @@ function LoginButton() {
             <h5>PLEASE LOG IN</h5>
           </div>
           <div id="error-message" className="alert alert-danger"></div>
-          <form onSubmit={() => {}}>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Email</label>
               <input
