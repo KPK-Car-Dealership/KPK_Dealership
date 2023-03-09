@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, ADMIN_KEY } = process.env;
 const { auth } = require("express-openid-connect");
+const bcrypt = require("bcrypt");
 
 const { Car, User } = require("./db");
 const { Admin } = require("./db/Admin");
@@ -99,7 +100,56 @@ app.get("/", (req, res, next) => {
   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
 });
 
-app.get("/user/token", async (req, res, next) => {
+app.post("/user/register", async (req, res, next) => {
+  try {
+    const { name, nickname, email, password } = req.body;
+    const [user] = await User.findAll({ where: { email } });
+    const SALT_COUNT = 10;
+    console.log(password);
+
+    if (!user?.email) {
+      const hashedPw = await bcrypt.hash(password, SALT_COUNT);
+
+      const newUser = await User.create({
+        name,
+        nickname,
+        email,
+        password: hashedPw,
+      });
+      const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
+      res.send({ newUser, token });
+    } else {
+      throw new Error("User already exists");
+    }
+  } catch (error) {
+    res.statusCode = 404;
+    error.status = 404;
+    next(error);
+  }
+});
+
+app.post("/user/login", async (req, res, next) => {
+  const { email, password } = req.body;
+  const [user] = await User.findAll({ where: { email } });
+  if (!user.email) {
+    console.log(user.email);
+    return res.sendStatus(401);
+  } else {
+    const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
+    if (user.password) {
+      const isAMatch = await bcrypt.compare(password, user.password);
+      if (isAMatch) {
+        return res.send({ user, token });
+      } else {
+        return res.status(401).send("Password is incorrect");
+      }
+    } else {
+      return res.send({ user, token });
+    }
+  }
+});
+
+app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {
       const user = await User.findOne({

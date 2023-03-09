@@ -116,7 +116,15 @@ function App() {
   //   </>
   // );
   return (
-    <PaginatedItems itemsPerPage={4} />
+    <>
+      <main>
+        <h1>Auth0 Login</h1>
+        <LoginButton />
+        {/* <LogoutButton /> */}
+      </main>
+       <PaginatedItems itemsPerPage={4} />
+    </>
+
   );
 
 }
