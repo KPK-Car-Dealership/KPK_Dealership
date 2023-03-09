@@ -4,47 +4,51 @@ import "./LoginButton.css";
 function LoginButton() {
   const { loginWithPopup, isAuthenticated } = useAuth0();
 
+  function sumbitHandler(e) {
+    console.log(e);
+  }
+
   return (
     <div>
-      <div class="login-container">
-        <div class="col-xs-12 col-sm-4 col-sm-offset-4 login-box">
-          <div class="login-header">
-            <img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg" />
+      <div className="login-container">
+        <div className="col-xs-12 col-sm-4 col-sm-offset-4 login-box">
+          <div className="login-header">
+            {/* <img src="https://cdn.auth0.com/styleguide/1.0.0/img/badge.svg" /> */}
             <h3>Welcome</h3>
             <h5>PLEASE LOG IN</h5>
           </div>
-          <div id="error-message" class="alert alert-danger"></div>
-          <form onsubmit="return false;" method="post">
-            <div class="form-group">
-              <label for="name">Email</label>
+          <div id="error-message" className="alert alert-danger"></div>
+          <form onSubmit={() => {}}>
+            <div className="form-group">
+              <label htmlFor="name">Email</label>
               <input
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="email"
                 placeholder="Enter your email"
               />
             </div>
-            <div class="form-group">
-              <label for="name">Password</label>
+            <div className="form-group">
+              <label htmlFor="name">Password</label>
               <input
                 type="password"
-                class="form-control"
+                className="form-control"
                 id="password"
                 placeholder="Enter your password"
               />
             </div>
-            <div class="captcha-container form-group"></div>
+            <div className="captcha-container form-group"></div>
             <button
               type="submit"
               id="btn-login"
-              class="btn btn-primary btn-block"
+              className="btn btn-primary btn-block"
             >
               Log In
             </button>
             <button
               type="button"
               id="btn-signup"
-              class="btn btn-default btn-block"
+              className="btn btn-default btn-block"
             >
               Sign Up
             </button>
@@ -52,7 +56,7 @@ function LoginButton() {
             <button
               type="button"
               id="btn-google"
-              class="btn btn-default btn-danger btn-block"
+              className="btn btn-default btn-danger btn-block"
             >
               Log In with Google
             </button>
