@@ -30,21 +30,22 @@ function App() {
 
   return (
     <>
-      <button><a href="http://localhost:3000/login">Login</a></button>
       <main>
-        {/* <LoginButton />
-        <LogoutButton /> */}
+        <h1>Auth0 Login</h1>
+        <LoginButton />
+        {/* <LogoutButton /> */}
       </main>
       <h1>Cars Cars come get ya cars!!</h1>
-      {carsList && carsList.map((car, idx) => (
-        <div>
-          <h2>
-            Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:
-            {car.model}- Price:{car.price}
-          </h2>
-          <img src={car.image} alt="car" width="250" height="250"></img>
-        </div>
-      ))}
+      {carsList &&
+        carsList.map((car, idx) => (
+          <div>
+            <h2>
+              Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:
+              {car.model}- Price:{car.price}
+            </h2>
+            <img src={car.image} alt="car" width="250" height="250"></img>
+          </div>
+        ))}
     </>
   );
 }
