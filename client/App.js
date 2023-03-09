@@ -14,29 +14,29 @@ function App() {
     const fetchData = async () => {
       const res = await fetch("http://localhost:3000/cars", {
         headers: {
-          Authorization: `Bearer ${JWT_TOKEN}`,
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJraGFybWFsaW5hLnRvbmciLCJuYW1lIjoiS2hhcm1hbGluYSBUb25nIiwicGFzc3dvcmQiOm51bGwsImVtYWlsIjoia2hhcm1hbGluYS50b25nQHZlcml6b253aXJlbGVzcy5jb20iLCJjcmVhdGVkQXQiOiIyMDIzLTAzLTA5IDE3OjUwOjM5LjE2OCArMDA6MDAiLCJ1cGRhdGVkQXQiOiIyMDIzLTAzLTA5IDE3OjUwOjM5LjE2OCArMDA6MDAiLCJpYXQiOjE2NzgzODQyNDYsImV4cCI6MTY3ODk4OTA0Nn0.gjnRZfOU7GLu-r7pO0LyVk3pDuFYb6JsMvNmcxQi5WU`,
         },
       }).then(async (response) => {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
+        setCarsList(data);
+        setCarsFilteredList(data);
       });
-      const data = await res.json();
-      setCarsList(data);
-      setCarsFilteredList(data);
-      console.log(data);
     };
+    console.log(JWT_TOKEN)
     fetchData().catch(console.error);
+    console.log(carsList)
   }, []);
 
   return (
     <>
       <main>
-        <h1>Auth0 Login</h1>
-        <LoginButton />
-        <LogoutButton />
+        <h1>Auth00 Login</h1>
+        {/* <LoginButton /> */}
+        {/* <LogoutButton /> */}
       </main>
       <h1>Cars Cars come get ya cars!!</h1>
-      {carsList.map((car, idx) => (
+      {carsList && carsList.map((car, idx) => (
         <div>
           <h2>
             Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:
