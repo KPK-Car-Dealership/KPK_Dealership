@@ -1,5 +1,5 @@
 const {sequelize} = require('./db');
-const {Car} = require('./');
+const {Car} = require('.');
 const {cars} = require('./seedData');
 
 const seed = async () => {
