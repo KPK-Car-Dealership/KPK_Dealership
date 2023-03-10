@@ -4,8 +4,8 @@ import ReactPaginate from 'react-paginate';
 
 const TOKEN = process.env.REACT_APP_TOKEN;
 
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
+// import LoginButton from "./components/LoginButton";
+// import LogoutButton from "./components/LogoutButton";
 import Navbar from "./components/NavBar";
 
 function App() {
