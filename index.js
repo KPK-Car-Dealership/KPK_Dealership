@@ -39,7 +39,7 @@ app.use(async (req, res, next) => {
   else {
     const [user] = await User.findOrCreate({
       where: {
-        username: req.oidc.user.nickname,
+        username: req.oidc.user.username,
         name: req.oidc.user.name,
         email: req.oidc.user.email,
       },
@@ -102,7 +102,7 @@ app.get("/", (req, res, next) => {
 
 app.post("/user/register", async (req, res, next) => {
   try {
-    const { name, nickname, email, password } = req.body;
+    const { name, username, email, password } = req.body;
     const [user] = await User.findAll({ where: { email } });
     const SALT_COUNT = 10;
     console.log(password);
@@ -116,7 +116,7 @@ app.post("/user/register", async (req, res, next) => {
         email,
         password: hashedPw,
       });
-      const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
+      const accessToken = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
       res.send({ newUser, token });
     } else {
       throw new Error("User already exists");
@@ -135,7 +135,7 @@ app.post("/user/login", async (req, res, next) => {
     console.log(user.email);
     return res.sendStatus(401);
   } else {
-    const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
+    const accessToken = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
     if (user.password) {
       const isAMatch = await bcrypt.compare(password, user.password);
       if (isAMatch) {
@@ -153,11 +153,11 @@ app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {
       const user = await User.findOne({
-        where: { username: req.oidc.user.nickname },
+        where: { username: req.oidc.user.username },
         raw: true,
       });
 
-      const token = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
+      const accessToken = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
       res.send({ user, token });
     } else {
       // Sends 401 code if user is not accessing route after signing in with Auth0
@@ -175,7 +175,7 @@ app.get("/cars", setUser, async (req, res, next) => {
     // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
-        where: { username: req?.oidc?.user?.nickname },
+        where: { username: req?.oidc?.user?.username },
       });
     }
 
@@ -199,7 +199,7 @@ app.get("/cars/:id", setUser, async (req, res, next) => {
     // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
-        where: { username: req?.oidc?.user?.nickname },
+        where: { username: req?.oidc?.user?.username },
       });
     }
 

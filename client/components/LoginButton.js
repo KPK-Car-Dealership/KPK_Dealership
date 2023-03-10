@@ -14,18 +14,14 @@ function LoginButton() {
         },
         body: JSON.stringify(
         {
-            email: title,
-            password: price,
-            nickname: description,
-            name: category,
+            email: email,
+            password: password,
+            nickname: nickname,
+            name: username,
         }
         )
       });
       const data = await response.json();
-
-    //   console.log(data.title)
-    //   I need bottom code if not I have to manually refresh to see the new submitted page
-    // ! React expects a completely new value - I need to use spread syntax to render a new array (new array will have brand new item created when clicking the submit button)
       setItems([...items,
             data
         ]);
