@@ -39,7 +39,7 @@ app.use(async (req, res, next) => {
   else {
     const [user] = await User.findOrCreate({
       where: {
-        username: req.oidc.user.username,
+        username: req.oidc.user.username || req.user.username,
         name: req.oidc.user.name,
         email: req.oidc.user.email,
       },
@@ -108,15 +108,16 @@ app.post("/user/register", async (req, res, next) => {
     console.log(password);
 
     if (!user?.email) {
+
       const hashedPw = await bcrypt.hash(password, SALT_COUNT);
 
       const newUser = await User.create({
         name,
-        nickname,
+        username,
         email,
         password: hashedPw,
       });
-      const accessToken = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
+      const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
       res.send({ newUser, token });
     } else {
       throw new Error("User already exists");
@@ -135,7 +136,7 @@ app.post("/user/login", async (req, res, next) => {
     console.log(user.email);
     return res.sendStatus(401);
   } else {
-    const accessToken = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
+    const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
     if (user.password) {
       const isAMatch = await bcrypt.compare(password, user.password);
       if (isAMatch) {
@@ -153,11 +154,11 @@ app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {
       const user = await User.findOne({
-        where: { username: req.oidc.user.username },
+        where: { username: req.oidc.user.username || req.user.username },
         raw: true,
       });
 
-      const accessToken = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
+      const token = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
       res.send({ user, token });
     } else {
       // Sends 401 code if user is not accessing route after signing in with Auth0

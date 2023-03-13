@@ -1,4 +1,4 @@
-// import React, { useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 // import { useSelector } from "react-redux";
 import Login from "./buttons/Login"
@@ -7,6 +7,7 @@ import Signup from "./buttons/Signup";
 
 const Navbar = ({setSingleItem, singleItem, setUpdateItem, updateItem, setAddItems, addItems, setIsCart, isCart, setAbout, about}) => {
 
+  const [token, setToken] = useState("");
   return (
     <> 
       <nav className="navbar navbar-expand-lg bg-light">
@@ -31,8 +32,9 @@ const Navbar = ({setSingleItem, singleItem, setUpdateItem, updateItem, setAddIte
         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button className="btn btn-outline-success mx-2" type="submit">Search</button>
       </form>
-      <Login />
-      <Signup />
+      {/* {token ? <Logout /> : <Login setToken={setToken}/>} */}
+      {/* <Login setToken={setToken}/>
+      <Signup /> */}
     </div>
   </div>
 </nav>

@@ -16,7 +16,7 @@ function LoginButton() {
         {
             email: email,
             password: password,
-            nickname: nickname,
+            username: username,
             name: username,
         }
         )
