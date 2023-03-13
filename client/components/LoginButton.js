@@ -4,8 +4,44 @@ import "./LoginButton.css";
 function LoginButton() {
   const { loginWithPopup, isAuthenticated } = useAuth0();
 
-  function sumbitHandler(e) {
-    console.log(e);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+    const response = await fetch(`http:localhost:3000/users/login`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+        {
+            email: email,
+            password: password,
+            username: username,
+            name: username,
+        }
+        )
+      });
+      const data = await response.json();
+      setItems([...items,
+            data
+        ]);
+
+        setTitle("");
+        setPrice("");
+        setDescription("");
+        setCategory("");
+        setImage("");
+        setRating("")
+
+        setAddItems(false)
+
+    } catch (err) {
+        console.log("form error", err)
+    }  
+
+    setAddItems(false)
+
+
   }
 
   return (
@@ -18,7 +54,7 @@ function LoginButton() {
             <h5>PLEASE LOG IN</h5>
           </div>
           <div id="error-message" className="alert alert-danger"></div>
-          <form onSubmit={() => {}}>
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="name">Email</label>
               <input

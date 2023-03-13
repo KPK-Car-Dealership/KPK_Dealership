@@ -39,7 +39,7 @@ app.use(async (req, res, next) => {
   else {
     const [user] = await User.findOrCreate({
       where: {
-        username: req.oidc.user.nickname,
+        username: req.oidc.user.username || req.user.username,
         name: req.oidc.user.name,
         email: req.oidc.user.email,
       },
@@ -102,17 +102,18 @@ app.get("/", (req, res, next) => {
 
 app.post("/user/register", async (req, res, next) => {
   try {
-    const { name, nickname, email, password } = req.body;
+    const { name, username, email, password } = req.body;
     const [user] = await User.findAll({ where: { email } });
     const SALT_COUNT = 10;
     console.log(password);
 
     if (!user?.email) {
+
       const hashedPw = await bcrypt.hash(password, SALT_COUNT);
 
       const newUser = await User.create({
         name,
-        nickname,
+        username,
         email,
         password: hashedPw,
       });
@@ -153,7 +154,7 @@ app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {
       const user = await User.findOne({
-        where: { username: req.oidc.user.nickname },
+        where: { username: req.oidc.user.username || req.user.username },
         raw: true,
       });
 
@@ -175,7 +176,7 @@ app.get("/cars", setUser, async (req, res, next) => {
     // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
-        where: { username: req?.oidc?.user?.nickname },
+        where: { username: req?.oidc?.user?.username },
       });
     }
 
@@ -199,7 +200,7 @@ app.get("/cars/:id", setUser, async (req, res, next) => {
     // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
-        where: { username: req?.oidc?.user?.nickname },
+        where: { username: req?.oidc?.user?.username },
       });
     }
 
