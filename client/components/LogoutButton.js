@@ -1,17 +1,17 @@
-import { useAuth0 } from "@auth0/auth0-react";
-
-function LogoutButton() {
-
-    const { logout, isAuthenticated } = useAuth0();
-
-    return (
-        isAuthenticated && (
-            <button onClick={() => logout()}>
-                Log out
-            </button>
-        )
-
-    )
+function LogoutButton({ setToken, setCarsList }) {
+  function logoutUser() {
+    localStorage.removeItem("token");
+    setToken(null);
+    setCarsList(null);
+  }
+  return (
+    <button
+      className="btn btn-outline-danger mx-2 px-3"
+      onClick={() => logoutUser()}
+    >
+      Log out
+    </button>
+  );
 }
 
-export default LogoutButton
+export default LogoutButton;
