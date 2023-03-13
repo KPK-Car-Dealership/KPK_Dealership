@@ -31,12 +31,18 @@ function App() {
     console.log(carsList)
   }, []);
 
+  // useEffect(() => {
+  //   if(token) {
+  //     console.log("isfgrg");
+  //   }
+  // }, [token])
+
     return (
       <>       
         <main>
           {
             !token ? (
-              <Login setToken={setToken} />
+              <Login setToken={setToken} token={token}/>
             ) : 
               <div>
                 <Navbar />

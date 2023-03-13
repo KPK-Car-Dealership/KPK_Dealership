@@ -39,7 +39,7 @@ app.use(async (req, res, next) => {
   else {
     const [user] = await User.findOrCreate({
       where: {
-        username: req.oidc.user.username || req.user.username,
+        username: req.oidc.user.nickname,
         name: req.oidc.user.name,
         email: req.oidc.user.email,
       },
@@ -132,8 +132,7 @@ app.post("/user/register", async (req, res, next) => {
 app.post("/user/login", async (req, res, next) => {
   const { email, password } = req.body;
   const [user] = await User.findAll({ where: { email } });
-  if (!user.email) {
-    console.log(user.email);
+  if (!user?.email) {
     return res.sendStatus(401);
   } else {
     const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
@@ -154,7 +153,7 @@ app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {
       const user = await User.findOne({
-        where: { username: req.oidc.user.username || req.user.username },
+        where: { username: req.oidc.user.username },
         raw: true,
       });
 
@@ -176,7 +175,7 @@ app.get("/cars", setUser, async (req, res, next) => {
     // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
-        where: { username: req?.oidc?.user?.username },
+        where: { username: req?.oidc?.user?.nickname },
       });
     }
 
