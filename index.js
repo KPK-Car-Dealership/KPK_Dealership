@@ -153,7 +153,7 @@ app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {
       const user = await User.findOne({
-        where: { username: req.oidc.user.username },
+        where: { username: req.oidc.user.nickname },
         raw: true,
       });
 
@@ -199,7 +199,7 @@ app.get("/cars/:id", setUser, async (req, res, next) => {
     // If user is logged in through Auth0 find their user data in the database
     if (req.oidc.user) {
       user = await User.findOne({
-        where: { username: req?.oidc?.user?.username },
+        where: { username: req?.oidc?.user?.nickname },
       });
     }
 
