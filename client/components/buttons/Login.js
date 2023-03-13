@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from "react-bootstrap/Modal";
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ async function loginUser(credentials) {
       })
    }
 
-function Login({setToken}) {
+function Login({setToken, token}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -28,6 +28,12 @@ function Login({setToken}) {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    useEffect(() => {
+      if(token) {
+        console.log("isfgrg");
+      }
+    }, [token])
 
     const handleSubmit = async e => {
         e.preventDefault();
