@@ -15,6 +15,7 @@ async function loginUser(credentials) {
     })
       .then(async data => {
       const loginData = await data.json()
+      return loginData
       console.log(loginData)
       })
    }
@@ -29,15 +30,9 @@ function Login({setToken, token}) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    useEffect(() => {
-      if(token) {
-        console.log("isfgrg");
-      }
-    }, [token])
-
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await loginUser({
+        const {token} = await loginUser({
           email,
           password
         });
