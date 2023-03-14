@@ -5,6 +5,7 @@ import PaginatedItems from "./components/PaginatedItems";
 const TOKEN = process.env.REACT_APP_TOKEN;
 import Navbar from "./components/NavBar";
 import Login from "./components/buttons/Login";
+import Signup from "./components/buttons/Signup";
 
 function App() {
   const [carsList, setCarsList] = useState(null);
@@ -57,7 +58,15 @@ function App() {
         <main>
           {
             !carsList ? (
-              <Login setToken={setToken} token={token}/>
+              <div >
+                <div className="d-flex align-items-center justify-content-center">
+                  <h1>🚗 Welcome to KPK 🚗</h1>
+                </div>
+                <div className="d-flex align-items-center justify-content-center">
+                  <Login setToken={setToken} token={token}/>
+                  <Signup setToken={setToken} token={token}/>
+                </div>
+              </div>
             ) : 
               <div>
                 <Navbar />
