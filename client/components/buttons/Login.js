@@ -16,11 +16,11 @@ async function loginUser(credentials) {
       .then(async data => {
       const loginData = await data.json()
       return loginData
-      console.log(loginData)
+      // console.log(loginData)
       })
    }
 
-function Login({setToken, token}) {
+function Login({setToken, token, user, setUser}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

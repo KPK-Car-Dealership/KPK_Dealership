@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from "react-bootstrap/Modal";
-import PropTypes from 'prop-types';
 
 
 async function signupUser(credentials) {
@@ -20,7 +19,7 @@ async function signupUser(credentials) {
         })
      }
 
-function Signup({setToken, token}) {
+function Signup() {
 
     const [show, setShow] = useState(false);
 
@@ -31,7 +30,6 @@ function Signup({setToken, token}) {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
-    const [user, setUser] = useState("");
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -42,7 +40,6 @@ function Signup({setToken, token}) {
             password
         });
 
-        setUser(user);
         setName("");
         setUsername("");
         setPassword("");
@@ -98,9 +95,5 @@ function Signup({setToken, token}) {
         </>
     )
 }
-
-// Signup.propTypes = {
-//     setUser: PropTypes.func.isRequired
-//   }
 
 export default Signup
