@@ -36,6 +36,16 @@ function App() {
     }
   };
 
+  // Handles search functionality
+  // const handleChange = (e) => {
+  //   const value = e.target.value;
+  //   const regex = RegExp(value, "gi");
+  //   const filteredList = pokemonList.filter((newList) => {
+  //     return newList.name.match(regex);
+  //   });
+  //   setPokemonFilteredList(filteredList);
+  // };
+
   useEffect(() => {
     // Handles persisting user visit through page reload
     if (token) {
