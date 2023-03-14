@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import PropTypes from "prop-types";
 
 async function loginUser(credentials) {
-  return fetch("http://localhost:3000/user/login", {
+  return fetch("https://kpk-car-dealership.onrender.com/user/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
