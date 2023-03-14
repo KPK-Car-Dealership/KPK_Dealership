@@ -1,9 +1,6 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import "./LoginButton.css";
 
 function LoginButton() {
-  const { loginWithPopup, isAuthenticated } = useAuth0();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
