@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 async function loginUser(credentials) {
   return fetch("https://kpk-car-dealership.onrender.com/user/login", {
@@ -107,8 +107,8 @@ function Login({ setToken, token }) {
     </>
   );
 }
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
+// Login.propTypes = {
+//   setToken: PropTypes.func.isRequired,
+// };
 
 export default Login;
