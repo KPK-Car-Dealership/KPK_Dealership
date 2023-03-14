@@ -14,7 +14,7 @@ function App() {
 
   const fetchData = async (tokenParam) => {
     if (tokenParam) {
-      const res = await fetch("http://localhost:3000/cars", {
+      const res = await fetch("https://kpk-car-dealership.onrender.com/cars", {
         headers: {
           Authorization: `Bearer ${tokenParam}`,
         },
