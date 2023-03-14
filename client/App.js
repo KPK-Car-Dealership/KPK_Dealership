@@ -12,50 +12,88 @@ function App() {
   const [carsFilteredList, setCarsFilteredList] = useState([]);
   const [token, setToken] = useState("");
 
-  useEffect(() => {
-    if(token) {
-      const fetchData = async () => {
-        const res = await fetch("http://localhost:3000/cars", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }).then(async (response) => {
+  const fetchData = async (tokenParam) => {
+    if (tokenParam) {
+      const res = await fetch("http://localhost:3000/cars", {
+        headers: {
+          Authorization: `Bearer ${tokenParam}`,
+        },
+      })
+        .then(async (response) => {
           const data = await response.json();
-          console.log(data);
-          setCarsList(data);
-          setCarsFilteredList(data);
-        });
-      };
-      fetchData().catch(console.error);
-      console.log(carsList)
-      console.log(token);
-    }
-  }, [token])
-
-    return (
-      <>       
-        <main>
-          {
-            !carsList ? (
-              <div >
-                <div className="d-flex align-items-center justify-content-center">
-                  <h1>🚗 Welcome to KPK 🚗</h1>
-                </div>
-                <div className="d-flex align-items-center justify-content-center">
-                  <Login setToken={setToken} token={token} />
-                  <Signup />
-                </div>
-              </div>
-            ) : 
-              <div>
-                <Navbar />
-                <PaginatedItems itemsPerPage={4} carsList={carsList}/>
-              </div>
+          if (data.error) {
+            // return error for error handling
+            return data;
+          } else {
+            setCarsList(data);
+            setCarsFilteredList(data);
+            return data;
           }
-        </main>
-      </>
-  
-    );
-  }
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      return res;
+    }
+  };
+
+  // Handles search functionality
+  // const handleChange = (e) => {
+  //   const value = e.target.value;
+  //   const regex = RegExp(value, "gi");
+  //   const filteredList = pokemonList.filter((newList) => {
+  //     return newList.name.match(regex);
+  //   });
+  //   setPokemonFilteredList(filteredList);
+  // };
+
+  useEffect(() => {
+    // Handles persisting user visit through page reload
+    if (token) {
+      fetchData(token);
+    } else {
+      // Renders page if token is stored in localstorage
+      const handleExistingVisit = JSON.parse(localStorage.getItem("token"));
+      async function handleExistingData() {
+        // Will eventually check if token is valid and handle logging user out if session has expired
+        if (handleExistingVisit) {
+          setToken(handleExistingVisit);
+          const data = await fetchData(handleExistingVisit);
+          console.log(data);
+        } else {
+          console.log("Not logged in");
+        }
+      }
+      handleExistingData();
+    }
+  }, [token]);
+
+  return (
+    <>
+      <main>
+        {!carsList ? (
+          <div>
+            <div className="d-flex align-items-center justify-content-center">
+              <h1>🚗 Welcome to KPK 🚗</h1>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+              <Login setToken={setToken} token={token} />
+              <Signup />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <Navbar
+              token={token}
+              setToken={setToken}
+              setCarsList={setCarsList}
+            />
+            <PaginatedItems itemsPerPage={4} carsList={carsList} />
+          </div>
+        )}
+      </main>
+    </>
+  );
+}
 
 export { App };

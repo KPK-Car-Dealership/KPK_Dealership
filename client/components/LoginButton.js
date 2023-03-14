@@ -7,42 +7,35 @@ function LoginButton() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-    const response = await fetch(`http:localhost:3000/users/login`, {
+      const response = await fetch(`http:localhost:3000/users/login`, {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-        {
-            email: email,
-            password: password,
-            username: username,
-            name: username,
-        }
-        )
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          username: username,
+          name: username,
+        }),
       });
       const data = await response.json();
-      setItems([...items,
-            data
-        ]);
+      setItems([...items, data]);
 
-        setTitle("");
-        setPrice("");
-        setDescription("");
-        setCategory("");
-        setImage("");
-        setRating("")
+      setTitle("");
+      setPrice("");
+      setDescription("");
+      setCategory("");
+      setImage("");
+      setRating("");
 
-        setAddItems(false)
-
+      setAddItems(false);
     } catch (err) {
-        console.log("form error", err)
-    }  
+      console.log("form error", err);
+    }
 
-    setAddItems(false)
-
-
-  }
+    setAddItems(false);
+  };
 
   return (
     <div>

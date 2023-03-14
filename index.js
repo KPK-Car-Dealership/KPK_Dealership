@@ -108,7 +108,6 @@ app.post("/user/register", async (req, res, next) => {
     console.log(password);
 
     if (!user?.email) {
-
       const hashedPw = await bcrypt.hash(password, SALT_COUNT);
 
       const newUser = await User.create({
@@ -133,7 +132,7 @@ app.post("/user/login", async (req, res, next) => {
   const { email, password } = req.body;
   const [user] = await User.findAll({ where: { email } });
   if (!user?.email) {
-    return res.sendStatus(401);
+    return res.status(401).send({ message: "Email/Password is incorrect" });
   } else {
     const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
     if (user.password) {
@@ -141,7 +140,7 @@ app.post("/user/login", async (req, res, next) => {
       if (isAMatch) {
         return res.send({ user, token });
       } else {
-        return res.status(401).send("Password is incorrect");
+        return res.status(401).send({ error: "Email/Password is incorrect" });
       }
     } else {
       return res.send({ user, token });
