@@ -10,19 +10,14 @@ async function loginUser(credentials) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
-  })
-    .then(async (data) => {
-      const loginData = await data.json();
-      if (!loginData?.token) throw new Error(loginData.message);
-      else {
-        localStorage.setItem("token", JSON.stringify(loginData.token));
-        return loginData;
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-      return error;
-    });
+  }).then(async (data) => {
+    const loginData = await data.json();
+    if (!loginData?.token) throw new Error(loginData.message);
+    else {
+      localStorage.setItem("token", JSON.stringify(loginData.token));
+      return loginData;
+    }
+  });
 }
 
 function Login({ setToken, token }) {

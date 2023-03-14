@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginatedItems from "./components/PaginatedItems";
 
-const TOKEN = process.env.REACT_APP_TOKEN;
+// const TOKEN = process.env.REACT_APP_TOKEN;
 import Navbar from "./components/NavBar";
 import Login from "./components/buttons/Login";
+import Signup from "./components/buttons/Signup";
 
 function App() {
   const [carsList, setCarsList] = useState(null);
@@ -50,11 +51,10 @@ function App() {
     // Handles persisting user visit through page reload
     if (token) {
       fetchData(token);
-      // .catch(console.error);
     } else {
       // Renders page if token is stored in localstorage
       const handleExistingVisit = JSON.parse(localStorage.getItem("token"));
-      async function handleData() {
+      async function handleExistingData() {
         // Will eventually check if token is valid and handle logging user out if session has expired
         if (handleExistingVisit) {
           setToken(handleExistingVisit);
@@ -64,7 +64,7 @@ function App() {
           console.log("Not logged in");
         }
       }
-      handleData();
+      handleExistingData();
     }
   }, [token]);
 
@@ -72,7 +72,15 @@ function App() {
     <>
       <main>
         {!carsList ? (
-          <Login setToken={setToken} />
+          <div>
+            <div className="d-flex align-items-center justify-content-center">
+              <h1>🚗 Welcome to KPK 🚗</h1>
+            </div>
+            <div className="d-flex align-items-center justify-content-center">
+              <Login setToken={setToken} token={token} />
+              <Signup />
+            </div>
+          </div>
         ) : (
           <div>
             <Navbar
