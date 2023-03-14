@@ -6,6 +6,7 @@
   "scripts": {
     "client-dev": "parcel client/index.html --open",
     "server-dev": "nodemon server.js",
+    "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "seed": "node db/seed.js",
     "test": "jest --detectOpenHandles"
   },
@@ -45,6 +46,7 @@
   "devDependencies": {
     "assert": "^2.0.0",
     "buffer": "^5.7.1",
+    "concurrently": "^7.6.0",
     "crypto-browserify": "^3.12.0",
     "events": "^3.3.0",
     "os-browserify": "^0.3.0",
