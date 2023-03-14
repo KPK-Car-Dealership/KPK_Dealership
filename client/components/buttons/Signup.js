@@ -1,6 +1,23 @@
 import React, {useState} from "react";
 import Button from 'react-bootstrap/Button';
-import Modal from "react-bootstrap/Modal"
+import Modal from "react-bootstrap/Modal";
+
+
+async function signupUser(credentials) {
+    console.log(credentials);
+      return fetch('http://localhost:3000/user/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+      })
+        .then(async data => {
+        const signupData = await data.json()
+        return signupData
+        // console.log(signupData)
+        })
+     }
 
 function Signup() {
 
@@ -8,6 +25,28 @@ function Signup() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
+    const [name, setName] = useState("");
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const {user} = await signupUser({
+            name,
+            username,
+            email,
+            password
+        });
+
+        setName("");
+        setUsername("");
+        setPassword("");
+        setEmail("");
+
+        alert("Registration Complete! Head to login :)")
+      }
 
     return (
         <>
@@ -20,23 +59,23 @@ function Signup() {
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="exampleUser" className="form-label">Full name</label>
-                <input type="email" className="form-control" id="exampleUser"/>
+                <input type="text" className="form-control" id="exampleUser" onChange={e => setName(e.target.value)}/>
             </div>
             <div className="mb-3">
                 <label htmlFor="exampleUser" className="form-label">Username</label>
-                <input type="email" className="form-control" id="exampleUser"/>
+                <input type="text" className="form-control" id="exampleUser" onChange={e => setUsername(e.target.value)}/>
             </div>
             <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+                <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={e => setEmail(e.target.value)}/>
                 <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div className="mb-3">
                 <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                <input type="password" className="form-control" id="exampleInputPassword1"/>
+                <input type="password" className="form-control" id="exampleInputPassword1" onChange={e => setPassword(e.target.value)}/>
             </div>
             <div className="mb-3 form-check">
                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />

@@ -6,7 +6,7 @@ function Items({ currentItems }) {
       <div className="items">
         {currentItems &&
           currentItems.map((car, idx) => (
-            <div>
+            <div idx={idx}>
               <h2>
                 Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:
                 {car.model}- Price:{car.price}
