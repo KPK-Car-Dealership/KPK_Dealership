@@ -2,13 +2,14 @@
   "name": "kpk_dealership",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "default": "client/index.js",
   "scripts": {
     "client-dev": "parcel client/index.html --open",
     "server-dev": "nodemon server.js",
     "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "seed": "node db/seed.js",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "build": "parcel build client/index.html"
   },
   "repository": {
     "type": "git",
