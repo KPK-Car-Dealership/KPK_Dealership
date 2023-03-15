@@ -40,7 +40,7 @@ function Signup() {
       .matches(/[A-Z]/, 'Password requires an uppercase letter')
       .matches(/[^\w]/, 'Password requires a symbol'),
       confirmPassword: Yup.string()
-      .required('Confirm Password is required')
+      .required('Please Confirm Password')
       .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
       acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
   });
@@ -65,16 +65,26 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
 
-  const onSubmit = async e => {
-    const { user } = await signupUser({
-      name,
-      username,
-      email,
-      password,
-      confirmPassword
-    });
+  const [validRegistration, setValidRegistration] = useState(false);
 
-    alert("Registration Complete! Head to login 😊");
+
+  const onSubmit = async e => {
+    try {
+      setValidRegistration(true)
+
+      const { user } = await signupUser({
+        name,
+        username,
+        email,
+        password,
+        confirmPassword
+      });
+
+      setValidRegistration(true)
+
+    } catch(err) {
+      console.log("invalid register: ", err)
+    }
   };
 
   return (
@@ -92,6 +102,21 @@ function Signup() {
 
         <div className="register-form">
           <form onSubmit={handleSubmit(onSubmit)}>
+          {validRegistration ? 
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" style={{display: "none"}}>
+              <symbol id="check-circle-fill" viewBox="0 -8 16 32">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </symbol>
+              </svg>
+              <div className="alert alert-success d-flex align-items-center" role="alert">
+                <svg className="bi me-2" role="img" aria-label="Success:"><use xlinkHref="#check-circle-fill"/></svg>
+                <div>
+                  Registration Successfully Complete! Please Log in
+                </div>
+              </div>
+            </div> 
+            : ""}
             <div className="form-group">
               <label>Full Name</label>
               <input
