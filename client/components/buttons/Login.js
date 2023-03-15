@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import PropTypes from "prop-types";
 
 async function loginUser(credentials) {
   return fetch("http://localhost:3000/user/login", {
@@ -63,6 +62,7 @@ function Login({ setToken, token }) {
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <div id="emailHelp" className="form-text">
                 We'll never share your email with anyone else.
@@ -77,6 +77,7 @@ function Login({ setToken, token }) {
                 className="form-control"
                 id="exampleInputPassword1"
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3 form-check">
@@ -102,13 +103,11 @@ function Login({ setToken, token }) {
               Submit
             </button>
           </form>
+
         </Modal.Body>
       </Modal>
     </>
   );
 }
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
 
 export default Login;
