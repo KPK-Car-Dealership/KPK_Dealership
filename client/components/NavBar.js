@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "./buttons/LogoutButton";
 
 const Navbar = ({
   setToken,

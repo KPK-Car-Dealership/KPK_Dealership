@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 async function signupUser(credentials) {
   console.log(credentials);
-  return fetch("http://localhost:3000/user/register", {
+  return fetch("https://kpk-car-dealership.onrender.com/user/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
