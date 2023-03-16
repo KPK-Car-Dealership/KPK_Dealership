@@ -102,10 +102,11 @@ app.get("/", (req, res, next) => {
 
 app.post("/user/register", async (req, res, next) => {
   try {
-    const { name, username, email, password } = req.body;
+    const { name, username, email, password, confirmPassword } = req.body;
     const [user] = await User.findAll({ where: { email } });
     const SALT_COUNT = 10;
-    console.log(password);
+    console.log("password: ", password);
+    console.log("confirm password: ", confirmPassword);
 
     if (!user?.email) {
       const hashedPw = await bcrypt.hash(password, SALT_COUNT);
@@ -115,6 +116,7 @@ app.post("/user/register", async (req, res, next) => {
         username,
         email,
         password: hashedPw,
+        confirmPassword: hashedPw
       });
       const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
       res.send({ newUser, token });
@@ -145,6 +147,15 @@ app.post("/user/login", async (req, res, next) => {
     } else {
       return res.send({ user, token });
     }
+  }
+});
+
+app.get("/user", setUser, async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.send(users)
+  } catch(err) {
+    console.log("All users: ", err)
   }
 });
 
