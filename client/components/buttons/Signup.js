@@ -21,7 +21,6 @@ async function signupUser(credentials) {
 }
 
 function Signup() {
-  const [show, setShow] = useState(false);
   const validationSchema = Yup.object().shape({
     fullname: Yup.string().required('Fullname is required'),
     username: Yup.string()
@@ -42,7 +41,7 @@ function Signup() {
       confirmPassword: Yup.string()
       .required('Please Confirm Password')
       .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-      acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
+      acceptTerms: Yup.bool().oneOf([true], 'Accepting Terms is required')
   });
 
   const {
