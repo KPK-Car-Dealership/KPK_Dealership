@@ -1,3 +1,5 @@
+import React from "react";
+
 function LogoutButton({ setToken, setCarsList, setLoading }) {
   function logoutUser() {
     localStorage.removeItem("token");
