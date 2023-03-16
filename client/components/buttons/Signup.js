@@ -42,7 +42,7 @@ function Signup() {
       confirmPassword: Yup.string()
       .required('Please Confirm Password')
       .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-      acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
+      acceptTerms: Yup.bool().oneOf([true], 'Accepting Terms is required')
   });
 
   const {

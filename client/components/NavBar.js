@@ -5,6 +5,7 @@ import LogoutButton from "./buttons/LogoutButton";
 const Navbar = ({
   setToken,
   setCarsList,
+  setLoading
 }) => {
   return (
     <>
@@ -52,7 +53,7 @@ const Navbar = ({
               <button className="btn btn-outline-success mx-2" type="submit">
                 Search
               </button>
-              <LogoutButton setToken={setToken} setCarsList={setCarsList} />
+              <LogoutButton setToken={setToken} setCarsList={setCarsList} setLoading={setLoading}/>
             </form>
           </div>
         </div>
