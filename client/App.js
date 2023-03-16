@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginatedItems from "./components/PaginatedItems";
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
+
 
 // const TOKEN = process.env.REACT_APP_TOKEN;
 import Navbar from "./components/NavBar";
 import Login from "./components/buttons/Login";
 import Signup from "./components/buttons/Signup";
+import { FormGroup } from "@mui/material";
 
 function App() {
   const [carsList, setCarsList] = useState(null);
@@ -88,7 +94,21 @@ function App() {
               setToken={setToken}
               setCarsList={setCarsList}
             />
-            <PaginatedItems itemsPerPage={4} carsList={carsList} />
+            <Grid container >
+              <Grid xs={4} sx={{ m: 2, position: 'fixed' }}>
+                {/* <FormGroup> */}
+                  <TextField id="filled-basic" label="Search" variant="filled" />
+                  <Button variant="outlined" size="small">Calculate Payment</Button>
+                  <Button variant="outlined" size="small">Calculate Payment</Button>
+                  <Button variant="outlined" size="small">Calculate Payment</Button>
+                  <Button variant="outlined" size="small">Calculate Payment</Button>
+                  {/* <FormControlLabel control={<Checkbox defaultChecked />} label="Label" /> */}
+                {/* </FormGroup> */}
+              </Grid>
+              <Grid xs={8}>
+                <PaginatedItems sx={{ m: 2 }} itemsPerPage={4} carsList={carsList} />
+              </Grid>
+            </Grid>
           </div>
         )}
       </main>
