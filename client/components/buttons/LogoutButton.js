@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function LogoutButton({ setToken, setCarsList, setLoading }) {
   function logoutUser() {
@@ -8,12 +9,14 @@ function LogoutButton({ setToken, setCarsList, setLoading }) {
     setLoading(false);
   }
   return (
-    <button
-      className="btn btn-outline-danger mx-2 px-2"
-      onClick={() => logoutUser()}
-    >
-      Logout
-    </button>
+    <NavLink to="/">    
+      <button
+        className="btn btn-outline-danger mx-2 px-2"
+        onClick={() => logoutUser()}
+      >
+        Logout
+      </button></NavLink>
+
   );
 }
 

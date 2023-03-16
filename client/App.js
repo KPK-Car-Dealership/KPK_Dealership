@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginatedItems from "./components/PaginatedItems";
-import ReactLoading from 'react-loading';
+import React, { Fragment } from 'react';
 
 // const TOKEN = process.env.REACT_APP_TOKEN;
 import Navbar from "./components/NavBar";
 import Login from "./components/buttons/Login";
 import Signup from "./components/buttons/Signup";
-import "./style.css"
+import LoginRegisterPage from "./components/LoginRegisterPage";
 
 function App() {
   const [carsList, setCarsList] = useState(null);
@@ -74,40 +74,18 @@ function App() {
   return (
     <>
       <main>
+      <Routes>
         {!carsList ? (
-          <>
-            {loading && !carsList ? 
-            <div className="center-screen image-screen">
-              <h2>Logging in...</h2>
-              <ReactLoading type={"bubbles"} color={"black"} height={'15%'} width={'15%'} />
-            </div>
-            : 
-            <>
-              <div className="center-screen image-screen">
-                <div >
-                  <h1>🚗 KPKar Dealership🚗</h1>
-                  <p>Welcome to KPKar Dealership, a one-stop-shop for all your car needs! We sell the best quality cars with the best prices!</p>
-                  <p>To checkout the latest inventory, create an account and login</p>
-                </div>
-                <div >
-                  <Login setToken={setToken} token={token} setLoading={setLoading}/>
-                  <Signup />
-                </div>
-              </div>
-            </>
-            }
-          </>
+          <Route exact path="/" element={<LoginRegisterPage loading={loading} carsList={carsList} setToken={setToken} token={token} setLoading={setLoading}/>}/>
         ) : (
-          <div>
-            <Navbar
+          <Route path="/home" element={[<Navbar
               token={token}
               setToken={setToken}
               setCarsList={setCarsList}
               setLoading={setLoading}
-            />
-            <PaginatedItems itemsPerPage={4} carsList={carsList} />
-          </div>
+              />, <PaginatedItems itemsPerPage={4} carsList={carsList} />]} />           
         )}
+        </Routes>
       </main>
     </>
   );

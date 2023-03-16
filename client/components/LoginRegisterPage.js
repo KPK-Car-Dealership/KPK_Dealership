@@ -1,0 +1,35 @@
+
+import Login from "./buttons/Login";
+import Signup from "./buttons/Signup";
+import ReactLoading from 'react-loading';
+import "../style.css"
+
+function LoginRegisterPage({loading, carsList, setToken, token, setLoading}) {
+
+    return (
+        <>
+        {loading  ? 
+            <div className="center-screen image-screen">
+              <h2>Logging in...</h2>
+              <ReactLoading type={"bubbles"} color={"black"} height={'15%'} width={'15%'} />
+            </div>
+            : 
+            <>
+              <div className="center-screen image-screen">
+                <div >
+                  <h1>🚗 KPKar Dealership🚗</h1>
+                  <p>Welcome to KPKar Dealership, a one-stop-shop for all your car needs! We sell the best quality cars with the best prices!</p>
+                  <p>To checkout the latest inventory, create an account and login</p>
+                </div>
+                <div >
+                  <Login setToken={setToken} token={token} setLoading={setLoading} carsList={carsList} loading={loading}/>
+                  <Signup />
+                </div>
+              </div>
+            </>
+        }
+        </>
+    )
+}
+
+export default LoginRegisterPage

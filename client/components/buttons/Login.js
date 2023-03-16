@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
@@ -22,7 +23,7 @@ async function loginUser(credentials) {
   });
 }
 
-function Login({ setToken, token, setLoading }) {
+function Login({ setToken, token, setLoading, carsList, loading }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -32,6 +33,8 @@ function Login({ setToken, token, setLoading }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -50,8 +53,9 @@ function Login({ setToken, token, setLoading }) {
     resolver: yupResolver(validationSchema)
   });
 
+  
+
   const onSubmit = async (e) => {
-    // e.preventDefault();
     try {
       const { token } = await loginUser({
         email,
@@ -61,8 +65,12 @@ function Login({ setToken, token, setLoading }) {
   
       setEmail("");
       setPassword("");
-
       setLoading(true)
+
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
+
     } catch(err) {
       console.log("invalid email or password: ", err);
       setValidLogin(true)
@@ -70,10 +78,11 @@ function Login({ setToken, token, setLoading }) {
   };
 
   return (
-    <>
-        <Button variant="outline-primary" onClick={handleShow}>
+    <>  
+      <Button variant="outline-primary" onClick={handleShow}>
         <span className="fa fa-sign-in me-1"></span> Login
       </Button>
+
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -131,12 +140,6 @@ function Login({ setToken, token, setLoading }) {
                   Remember me
                 </label>
               </div>
-              {/* <button className="btn btn-primary w-100 mb-4">
-                <span className="fa fa-google me-2"></span>Sign in With Google
-              </button>
-              <button className="btn btn-primary w-100 mb-4">
-                <span className="fa fa-facebook me-2"></span>Sign in With Facebook
-              </button> */}
               <button
                 type="submit"
                 className="btn btn-outline-primary w-100 mt-3"
@@ -147,7 +150,7 @@ function Login({ setToken, token, setLoading }) {
           </div>
 
         </Modal.Body>
-      </Modal>     
+      </Modal>    
     </>
   );
 }
