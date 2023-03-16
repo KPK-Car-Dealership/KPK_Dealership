@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 async function signupUser(credentials) {
   console.log(credentials);
-  return fetch("http://localhost:3000/user/register", {
+  return fetch("https://kpk-car-dealership.onrender.com/user/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -21,7 +21,7 @@ async function signupUser(credentials) {
 }
 
 function Signup() {
-
+  const [show, setShow] = useState(false);
   const validationSchema = Yup.object().shape({
     fullname: Yup.string().required('Fullname is required'),
     username: Yup.string()
