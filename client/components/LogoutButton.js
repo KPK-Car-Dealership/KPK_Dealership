@@ -6,10 +6,10 @@ function LogoutButton({ setToken, setCarsList }) {
   }
   return (
     <button
-      className="btn btn-outline-danger mx-2 px-3"
+      className="btn btn-outline-danger mx-2 px-2"
       onClick={() => logoutUser()}
     >
-      Log out
+      Logout
     </button>
   );
 }
