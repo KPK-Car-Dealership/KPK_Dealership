@@ -150,6 +150,15 @@ app.post("/user/login", async (req, res, next) => {
   }
 });
 
+app.get("/user", setUser, async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.send(users)
+  } catch(err) {
+    console.log("All users: ", err)
+  }
+});
+
 app.get("/user/token", setUser, async (req, res, next) => {
   try {
     if (req.oidc.user || req.user) {

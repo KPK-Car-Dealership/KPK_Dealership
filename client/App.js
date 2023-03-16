@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PaginatedItems from "./components/PaginatedItems";
+import ReactLoading from 'react-loading';
 
 // const TOKEN = process.env.REACT_APP_TOKEN;
 import Navbar from "./components/NavBar";
 import Login from "./components/buttons/Login";
 import Signup from "./components/buttons/Signup";
+import "./style.css"
 
 function App() {
   const [carsList, setCarsList] = useState(null);
   const [carsFilteredList, setCarsFilteredList] = useState([]);
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async (tokenParam) => {
     if (tokenParam) {
@@ -72,21 +75,35 @@ function App() {
     <>
       <main>
         {!carsList ? (
-          <div>
-            <div className="d-flex align-items-center justify-content-center">
-              <h1>🚗 Welcome to KPK 🚗</h1>
+          <>
+            {loading && !carsList ? 
+            <div className="center-screen image-screen">
+              <h2>Logging in...</h2>
+              <ReactLoading type={"bubbles"} color={"black"} height={'15%'} width={'15%'} />
             </div>
-            <div className="d-flex align-items-center justify-content-center">
-              <Login setToken={setToken} token={token} />
-              <Signup />
-            </div>
-          </div>
+            : 
+            <>
+              <div className="center-screen image-screen">
+                <div >
+                  <h1>🚗 KPKar Dealership🚗</h1>
+                  <p>Welcome to KPKar Dealership, a one-stop-shop for all your car needs! We sell the best quality cars with the best prices!</p>
+                  <p>To checkout the latest inventory, create an account and login</p>
+                </div>
+                <div >
+                  <Login setToken={setToken} token={token} setLoading={setLoading}/>
+                  <Signup />
+                </div>
+              </div>
+            </>
+            }
+          </>
         ) : (
           <div>
             <Navbar
               token={token}
               setToken={setToken}
               setCarsList={setCarsList}
+              setLoading={setLoading}
             />
             <PaginatedItems itemsPerPage={4} carsList={carsList} />
           </div>

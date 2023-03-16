@@ -22,7 +22,7 @@ async function loginUser(credentials) {
   });
 }
 
-function Login({ setToken, token }) {
+function Login({ setToken, token, setLoading }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -61,6 +61,8 @@ function Login({ setToken, token }) {
   
       setEmail("");
       setPassword("");
+
+      setLoading(true)
     } catch(err) {
       console.log("invalid email or password: ", err);
       setValidLogin(true)
@@ -69,7 +71,7 @@ function Login({ setToken, token }) {
 
   return (
     <>
-      <Button variant="outline-primary" onClick={handleShow}>
+        <Button variant="outline-primary" onClick={handleShow}>
         <span className="fa fa-sign-in me-1"></span> Login
       </Button>
 
@@ -145,7 +147,7 @@ function Login({ setToken, token }) {
           </div>
 
         </Modal.Body>
-      </Modal>
+      </Modal>     
     </>
   );
 }

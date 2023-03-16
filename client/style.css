@@ -1,0 +1,16 @@
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+.image-screen {
+    background-image: url('https://media.istockphoto.com/id/1253848832/photo/blurred-rainbow-light-refraction-texture-on-white-wall.jpg?s=612x612&w=0&k=20&c=n1QKwFuOHsx2xpqEyaCuiypHlqIv_trdwaznJo9yl5k=');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
