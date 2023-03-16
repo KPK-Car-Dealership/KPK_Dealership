@@ -57,7 +57,7 @@ const Navbar = ({
               </li>
             </ul>
             <form className="d-flex" role="search">
-              <input
+              {/* <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search"
@@ -65,7 +65,7 @@ const Navbar = ({
               />
               <button className="btn btn-outline-success mx-2" type="submit">
                 Search
-              </button>
+              </button> */}
               <LogoutButton setToken={setToken} setCarsList={setCarsList} />
             </form>
             {/* <Login setToken={setToken}/>
