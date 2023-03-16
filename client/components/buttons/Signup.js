@@ -21,7 +21,6 @@ async function signupUser(credentials) {
 }
 
 function Signup() {
-
   const validationSchema = Yup.object().shape({
     fullname: Yup.string().required('Fullname is required'),
     username: Yup.string()
