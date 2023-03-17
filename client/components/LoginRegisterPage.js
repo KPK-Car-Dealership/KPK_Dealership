@@ -1,4 +1,4 @@
-
+import React from "react";
 import Login from "./buttons/Login";
 import Signup from "./buttons/Signup";
 import ReactLoading from 'react-loading';
