@@ -21,7 +21,7 @@ async function signupUser(credentials) {
 
 function Signup() {
   const validationSchema = Yup.object().shape({
-    fullname: Yup.string().required("Fullname is required"),
+    fullname: Yup.string().required("Full name is required"),
     username: Yup.string()
       .required("Username is required")
       .min(6, "Username must be at least 6 characters")
@@ -37,7 +37,7 @@ function Signup() {
       .matches(/[^\w]/, "Password requires a symbol"),
     confirmPassword: Yup.string()
       .required("Please Confirm Password")
-      .oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
+      .oneOf([Yup.ref("password"), null], "Password does not match"),
     acceptTerms: Yup.bool().oneOf([true], "Accepting Terms is required"),
   });
 
@@ -84,12 +84,12 @@ function Signup() {
   return (
     <>
       <Button variant="outline-primary ms-2" onClick={handleShow}>
-        <span className="fa fa-user-plus me-1"></span> Register
+        <span className="fa fa-user-plus me-1"></span> Sign Up
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Register</Modal.Title>
+          <Modal.Title>Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="register-form">
@@ -118,7 +118,7 @@ function Signup() {
                 ""
               )}
               <div className="form-group">
-                <label>Full Name</label>
+                <label>Name</label>
                 <input
                   name="fullname"
                   type="text"

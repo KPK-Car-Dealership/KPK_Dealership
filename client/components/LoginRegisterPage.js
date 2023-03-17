@@ -17,7 +17,7 @@ function LoginRegisterPage({loading, carsList, setToken, token, setLoading}) {
             <>
               <div className="center-screen image-screen">
                 <div >
-                  <h1>🚗 KPKar Dealership🚗</h1>
+                  <h1>🚗 KPKar Dealership 🚗</h1>
                   <p>Welcome to KPKar Dealership, a one-stop-shop for all your car needs! We sell the best quality cars with the best prices!</p>
                   <p>To checkout the latest inventory, create an account and login</p>
                 </div>
