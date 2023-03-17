@@ -23,7 +23,7 @@ async function loginUser(credentials) {
   });
 }
 
-function Login({ setToken, token, setLoading, carsList, loading }) {
+function Login({ setToken, setLoading }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

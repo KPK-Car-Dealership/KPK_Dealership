@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PaginatedItems from "./components/PaginatedItems";
-import React, { Fragment } from 'react';
-
-// const TOKEN = process.env.REACT_APP_TOKEN;
 import Navbar from "./components/NavBar";
-import Login from "./components/buttons/Login";
-import Signup from "./components/buttons/Signup";
 import LoginRegisterPage from "./components/LoginRegisterPage";
+import Sidebar from "./components/Sidebar";
+
 
 function App() {
   const [carsList, setCarsList] = useState(null);
@@ -83,7 +79,8 @@ function App() {
               setToken={setToken}
               setCarsList={setCarsList}
               setLoading={setLoading}
-              />, <PaginatedItems itemsPerPage={4} carsList={carsList} />]} />           
+              />, <Sidebar carsList={carsList}/>
+              ]} />           
         )}
         </Routes>
       </main>

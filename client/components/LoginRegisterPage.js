@@ -22,7 +22,7 @@ function LoginRegisterPage({loading, carsList, setToken, token, setLoading}) {
                   <p>To checkout the latest inventory, create an account and login</p>
                 </div>
                 <div >
-                  <Login setToken={setToken} token={token} setLoading={setLoading} carsList={carsList} loading={loading}/>
+                  <Login setToken={setToken} setLoading={setLoading}/>
                   <Signup />
                 </div>
               </div>
