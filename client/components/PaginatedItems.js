@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
 
 
@@ -15,13 +14,6 @@ function Items({ currentItems }) {
     <div className="items">
       {currentItems &&
         currentItems.map((car, idx) => (
-          // <div idx={idx}>
-          //   <h2>
-          //     Make:{car.make}- Color:{car.color}- Mileage:{car.mileage}- Model:
-          //     {car.model}- Price:{car.price}
-          //   </h2>
-          //   <img src={car.image} alt="car" width="250" height="250"></img>
-          // </div>
 
           <Card sx={{ m:2, height: 340, maxWidth: 845, display: 'flex', flexDirection: 'row' }}>
             <CardMedia
@@ -32,7 +24,7 @@ function Items({ currentItems }) {
               <Typography gutterBottom variant="h5" component="div">
                 {car.year} {car.make} {car.model}
               </Typography>
-              <Typography class="font-weight-bold" variant="subtitle1" color="text.secondary">
+              <Typography className="font-weight-bold" variant="subtitle1" color="text.secondary">
                 Price: ${car.price.toLocaleString("en-US")}
               </Typography>
               <Typography variant="body2" color="text.secondary">
@@ -80,26 +72,26 @@ function PaginatedItems({ itemsPerPage, carsList }) {
   return (
     <>
       <Items currentItems={currentItems} />
-      <ReactPaginate
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={2}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakLabel="..."
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        containerClassName="pagination"
-        activeClassName="active"
-        renderOnZeroPageCount={null}
-      />
+        <ReactPaginate
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          renderOnZeroPageCount={null}
+        />
     </>
   );
 }

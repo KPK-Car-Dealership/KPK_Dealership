@@ -28,19 +28,19 @@ const Navbar = ({
           <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink to="/home" className="nav-link active" aria-current="page">
                   Home
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <NavLink to="/cars" className="nav-link" href="#">
                   Cars
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <NavLink to="/about" className="nav-link" >
                   About
-                </a>
+                </NavLink>
               </li>
             </ul>
             <form className="d-flex" role="search">
