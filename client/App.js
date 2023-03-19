@@ -4,10 +4,9 @@ import Navbar from "./components/NavBar";
 import LoginRegisterPage from "./components/LoginRegisterPage";
 import Sidebar from "./components/Sidebar";
 
-
 function App() {
   const [carsList, setCarsList] = useState(null);
-  const [carsFilteredList, setCarsFilteredList] = useState([]);
+  const [carsFilteredList, setCarsFilteredList] = useState(null);
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -24,8 +23,12 @@ function App() {
             // return error for error handling
             return data;
           } else {
+            data.map((car) => {
+              car.name = `${car.year} ${car.make} ${car.model}`;
+            });
             setCarsList(data);
             setCarsFilteredList(data);
+            console.log(data);
             return data;
           }
         })
@@ -37,14 +40,24 @@ function App() {
   };
 
   // Handles search functionality
-  // const handleChange = (e) => {
-  //   const value = e.target.value;
-  //   const regex = RegExp(value, "gi");
-  //   const filteredList = pokemonList.filter((newList) => {
-  //     return newList.name.match(regex);
-  //   });
-  //   setPokemonFilteredList(filteredList);
-  // };
+  const handleChange = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    const regex = RegExp(value, "gi");
+    const filteredList = carsList.filter((newList) => {
+      return newList.name.match(regex);
+    });
+
+    setCarsFilteredList([...filteredList]);
+  };
+
+  // useEffect(() => {
+  //   if (carsList?.length == carsFilteredList?.length) {
+  //     console.log("");
+  //   } else {
+  //     console.log(carsFilteredList);
+  //   }
+  // }, [carsFilteredList]);
 
   useEffect(() => {
     // Handles persisting user visit through page reload
@@ -58,7 +71,7 @@ function App() {
         if (handleExistingVisit) {
           setToken(handleExistingVisit);
           const data = await fetchData(handleExistingVisit);
-          console.log(data);
+          // console.log(data);
         } else {
           console.log("Not logged in");
         }
@@ -70,18 +83,36 @@ function App() {
   return (
     <>
       <main>
-      <Routes>
-        {!carsList ? (
-          <Route exact path="/" element={<LoginRegisterPage loading={loading} carsList={carsList} setToken={setToken} token={token} setLoading={setLoading}/>}/>
-        ) : (
-          <Route path="/home" element={[<Navbar
-              token={token}
-              setToken={setToken}
-              setCarsList={setCarsList}
-              setLoading={setLoading}
-              />, <Sidebar carsList={carsList}/>
-              ]} />           
-        )}
+        <Routes>
+          {!carsFilteredList ? (
+            <Route
+              exact
+              path="/"
+              element={
+                <LoginRegisterPage
+                  loading={loading}
+                  setToken={setToken}
+                  setLoading={setLoading}
+                />
+              }
+            />
+          ) : (
+            <Route
+              path="/home"
+              element={[
+                <Navbar
+                  setToken={setToken}
+                  setCarsList={setCarsList}
+                  setCarsFilteredList={setCarsFilteredList}
+                  setLoading={setLoading}
+                />,
+                <Sidebar
+                  handleChange={handleChange}
+                  carsFilteredList={carsFilteredList}
+                />,
+              ]}
+            />
+          )}
         </Routes>
       </main>
     </>

@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import LogoutButton from "./buttons/LogoutButton";
 
-const Navbar = ({
-  setToken,
-  setCarsList,
-  setLoading
-}) => {
+const Navbar = ({ setToken, setCarsList, setLoading, setCarsFilteredList }) => {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-light">
@@ -28,7 +24,11 @@ const Navbar = ({
           <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
               <li className="nav-item">
-                <NavLink to="/home" className="nav-link active" aria-current="page">
+                <NavLink
+                  to="/home"
+                  className="nav-link active"
+                  aria-current="page"
+                >
                   Home
                 </NavLink>
               </li>
@@ -38,7 +38,7 @@ const Navbar = ({
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/about" className="nav-link" >
+                <NavLink to="/about" className="nav-link">
                   About
                 </NavLink>
               </li>
@@ -54,8 +54,12 @@ const Navbar = ({
                 Search
 
               </button> */}
-              <LogoutButton setToken={setToken} setCarsList={setCarsList} setLoading={setLoading}/>
-
+              <LogoutButton
+                setToken={setToken}
+                setCarsList={setCarsList}
+                setCarsFilteredList={setCarsFilteredList}
+                setLoading={setLoading}
+              />
             </form>
           </div>
         </div>

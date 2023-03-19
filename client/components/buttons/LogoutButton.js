@@ -7,16 +7,17 @@ function LogoutButton({ setToken, setCarsList, setLoading }) {
     setToken(null);
     setCarsList(null);
     setLoading(false);
+    setCarsFilteredList(null);
   }
   return (
-    <NavLink to="/">    
+    <NavLink to="/">
       <button
         className="btn btn-outline-danger mx-2 px-2"
         onClick={() => logoutUser()}
       >
         Logout
-      </button></NavLink>
-
+      </button>
+    </NavLink>
   );
 }
 
