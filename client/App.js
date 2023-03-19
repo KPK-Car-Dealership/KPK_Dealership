@@ -50,6 +50,28 @@ function App() {
 
     setCarsFilteredList([...filteredList]);
   };
+  const handleCheck = (e) => {
+    e.preventDefault();
+    console.log(e.target.checked);
+    if (e.target.checked) {
+      const value = e.target.name;
+      // console.log(value);
+      const regex = RegExp(value, "gi");
+      const filteredList = carsList.filter((newList) => {
+        return newList.name.match(regex);
+      });
+      console.log(filteredList);
+      // Checks if a make has already been selected before filtering results
+      if (carsFilteredList.length != carsList.length) {
+        setCarsFilteredList([...filteredList, ...carsFilteredList]);
+      } else {
+        setCarsFilteredList([...filteredList]);
+      }
+    } else {
+      // Need to make uncheck remove cars by each checkbox instead of resetting to default instantly
+      setCarsFilteredList(carsList);
+    }
+  };
 
   // useEffect(() => {
   //   if (carsList?.length == carsFilteredList?.length) {
@@ -108,6 +130,7 @@ function App() {
                 />,
                 <Sidebar
                   handleChange={handleChange}
+                  handleCheck={handleCheck}
                   carsFilteredList={carsFilteredList}
                 />,
               ]}

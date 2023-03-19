@@ -1,7 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function LogoutButton({ setToken, setCarsList, setLoading }) {
+function LogoutButton({
+  setToken,
+  setCarsList,
+  setLoading,
+  setCarsFilteredList,
+}) {
   function logoutUser() {
     localStorage.removeItem("token");
     setToken(null);

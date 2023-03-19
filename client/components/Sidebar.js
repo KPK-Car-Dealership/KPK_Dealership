@@ -6,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import PaginatedItems from "./PaginatedItems";
 
-function Sidebar({ carsFilteredList, handleChange }) {
+function Sidebar({ carsFilteredList, handleChange, handleCheck }) {
   return (
     <>
       <Grid container sx={{ justifyContent: "center" }}>
@@ -21,16 +21,60 @@ function Sidebar({ carsFilteredList, handleChange }) {
           <hr></hr>
           <h5>Make</h5>
           <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Honda" />
-            <FormControlLabel control={<Checkbox />} label="Toyota" />
-            <FormControlLabel control={<Checkbox />} label="Cadillac" />
-            <FormControlLabel control={<Checkbox />} label="Hyundai" />
-            <FormControlLabel control={<Checkbox />} label="Subaru" />
-            <FormControlLabel control={<Checkbox />} label="Hyundai" />
-            <FormControlLabel control={<Checkbox />} label="Kia" />
-            <FormControlLabel control={<Checkbox />} label="Acura" />
-            <FormControlLabel control={<Checkbox />} label="Audi" />
-            <FormControlLabel control={<Checkbox />} label="Infiniti" />
+            <FormControlLabel
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Honda"
+              name="Honda"
+            />
+            <FormControlLabel
+              name="Toyota"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Toyota"
+            />
+            <FormControlLabel
+              name="Cadillac"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Cadillac"
+            />
+            <FormControlLabel
+              name="Hyundai"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Hyundai"
+            />
+            <FormControlLabel
+              name="Subaru"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Subaru"
+            />
+            <FormControlLabel
+              name="Kia"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Kia"
+            />
+            <FormControlLabel
+              name="Acura"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Acura"
+            />
+            <FormControlLabel
+              name="Audi"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Audi"
+            />
+            <FormControlLabel
+              name="Infiniti"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Infiniti"
+            />
           </FormGroup>
         </Grid>
         <Grid>
