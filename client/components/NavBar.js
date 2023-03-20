@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import LogoutButton from "./buttons/LogoutButton";
 
-const Navbar = ({
-  setToken,
-  setCarsList,
-  setLoading
-}) => {
+const Navbar = ({ setToken, setCarsList, setLoading, setCarsFilteredList }) => {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-light">
@@ -28,7 +24,11 @@ const Navbar = ({
           <div className="collapse navbar-collapse" id="navbarScroll">
             <ul className="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
               <li className="nav-item">
-                <NavLink to="/home" className="nav-link active" aria-current="page">
+                <NavLink
+                  to="/home"
+                  className="nav-link active"
+                  aria-current="page"
+                >
                   Home
                 </NavLink>
               </li>
@@ -38,24 +38,18 @@ const Navbar = ({
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/about" className="nav-link" >
+                <NavLink to="/about" className="nav-link">
                   About
                 </NavLink>
               </li>
             </ul>
             <form className="d-flex" role="search">
-              {/* <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
+              <LogoutButton
+                setToken={setToken}
+                setCarsList={setCarsList}
+                setCarsFilteredList={setCarsFilteredList}
+                setLoading={setLoading}
               />
-              <button className="btn btn-outline-success mx-2" type="submit">
-                Search
-
-              </button> */}
-              <LogoutButton setToken={setToken} setCarsList={setCarsList} setLoading={setLoading}/>
-
             </form>
           </div>
         </div>
