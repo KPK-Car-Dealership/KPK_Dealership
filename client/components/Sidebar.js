@@ -75,6 +75,18 @@ function Sidebar({ carsFilteredList, handleChange, handleCheck }) {
               control={<Checkbox />}
               label="Infiniti"
             />
+            <FormControlLabel
+              name="Chevy"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Chevy"
+            />
+            <FormControlLabel
+              name="Nissan"
+              onChange={handleCheck}
+              control={<Checkbox />}
+              label="Nissan"
+            />
           </FormGroup>
         </Grid>
         <Grid>

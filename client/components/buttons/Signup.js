@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 async function signupUser(credentials) {
-  console.log(credentials);
   return fetch("https://kpk-car-dealership.onrender.com/user/register", {
     method: "POST",
     headers: {
