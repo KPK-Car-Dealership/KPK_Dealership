@@ -101,6 +101,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.post("/user/register", async (req, res, next) => {
+  // Registers a new user and saves user to the database
   try {
     const { name, username, email, password, confirmPassword } = req.body;
     const [user] = await User.findAll({ where: { email } });
@@ -118,8 +119,8 @@ app.post("/user/register", async (req, res, next) => {
         password: hashedPw,
         confirmPassword: hashedPw,
       });
-      const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
-      res.send({ newUser, token });
+
+      res.send({ newUser });
     } else {
       throw new Error("User already exists");
     }
@@ -131,6 +132,7 @@ app.post("/user/register", async (req, res, next) => {
 });
 
 app.post("/user/login", async (req, res, next) => {
+  // Checks user in database and sends back a token for access
   const { email, password } = req.body;
   const [user] = await User.findAll({ where: { email } });
   if (!user?.email) {
@@ -159,19 +161,24 @@ app.get("/user", setUser, async (req, res, next) => {
   }
 });
 
-app.get("/user/token", setUser, async (req, res, next) => {
+app.get("/user/token", async (req, res, next) => {
   try {
-    if (req.oidc.user || req.user) {
-      const user = await User.findOne({
-        where: { username: req.oidc.user.nickname },
-        raw: true,
-      });
-
-      const token = jwt.sign(user, JWT_SECRET, { expiresIn: "1w" });
-      res.send({ user, token });
+    const { email, password } = req.body;
+    const [user] = await User.findAll({ where: { email } });
+    if (!user?.email) {
+      return res.status(401).send({ message: "Email/Password is incorrect" });
     } else {
-      // Sends 401 code if user is not accessing route after signing in with Auth0
-      res.sendStatus(401);
+      const token = jwt.sign({ user }, JWT_SECRET, { expiresIn: "1w" });
+      if (user.password) {
+        const isAMatch = await bcrypt.compare(password, user.password);
+        if (isAMatch) {
+          return res.send({ user, token });
+        } else {
+          return res.status(401).send({ error: "Email/Password is incorrect" });
+        }
+      } else {
+        return res.send({ user, token });
+      }
     }
   } catch (error) {
     console.log(error);
