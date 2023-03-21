@@ -92,7 +92,6 @@ function App() {
     // Handles persisting user visit through page reload
     if (token) {
       fetchData(token);
-      navigate("/home");
     } else {
       // Renders page if token is stored in localstorage
       const handleExistingVisit = JSON.parse(localStorage.getItem("token"));
@@ -102,8 +101,6 @@ function App() {
           setToken(handleExistingVisit);
           const data = await fetchData(handleExistingVisit);
           navigate("/home");
-
-          // console.log(data);
         } else {
           // Navigates back to login page when not logged in
           navigate("/");
