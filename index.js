@@ -154,8 +154,12 @@ app.post("/user/login", async (req, res, next) => {
 
 app.get("/user", setUser, async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    res.send(users);
+    if (req.user) {
+      const users = await User.findAll();
+      res.send(users);
+    } else {
+      res.sendStatus(401);
+    }
   } catch (err) {
     console.log("All users: ", err);
   }
