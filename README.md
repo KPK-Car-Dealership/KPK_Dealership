@@ -22,9 +22,9 @@ Install my-project with npm
 ```
     
 ## Usage/Examples
-To initialize:
+To initialize both client and server side:
 ```bash
-npm run server-dev
+npm run dev
 ```
 
 
