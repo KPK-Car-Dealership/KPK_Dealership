@@ -6,6 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Fab from '@mui/material/Fab';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function Items({ currentItems }) {
   return (
@@ -40,13 +42,13 @@ function Items({ currentItems }) {
                 Mileage: {car.mileage.toLocaleString("en-US")} mi.
               </Typography>
 
-              <CardActions sx={{ flex: "1 0 auto" }}>
-                <Button variant="outlined" size="small">
-                  Calculate Payment
-                </Button>
-                <Button variant="outlined" size="small">
+              <CardActions sx={{ flex: '1 0 auto' }} >
+                <Button variant="outlined" size="small">Calculate Payment</Button>
+                {/* <Button variant="outlined" color="warning" size="medium">Favorite </Button> */}
+                <Fab variant="extended" size="medium" color="error" aria-label="like">
+                  <FavoriteIcon sx={{ mr: 1 }} />
                   Favorite
-                </Button>
+                </Fab>
               </CardActions>
             </CardContent>
           </Card>
