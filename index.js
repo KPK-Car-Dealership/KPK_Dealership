@@ -106,8 +106,8 @@ app.post("/user/register", async (req, res, next) => {
     const { name, username, email, password, confirmPassword } = req.body;
     const [user] = await User.findAll({ where: { email } });
     const SALT_COUNT = 10;
-    console.log("password: ", password);
-    console.log("confirm password: ", confirmPassword);
+    // console.log("password: ", password);
+    // console.log("confirm password: ", confirmPassword);
 
     if (!user?.email) {
       const hashedPw = await bcrypt.hash(password, SALT_COUNT);
