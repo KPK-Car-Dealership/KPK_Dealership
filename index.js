@@ -119,8 +119,9 @@ app.post("/user/register", async (req, res, next) => {
         password: hashedPw,
         confirmPassword: hashedPw,
       });
+      const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
 
-      res.send({ newUser });
+      res.send({ newUser, token });
     } else {
       throw new Error("User already exists");
     }
@@ -154,8 +155,12 @@ app.post("/user/login", async (req, res, next) => {
 
 app.get("/user", setUser, async (req, res, next) => {
   try {
-    const users = await User.findAll();
-    res.send(users);
+    if (req.user) {
+      const users = await User.findAll();
+      res.send(users);
+    } else {
+      res.sendStatus(401);
+    }
   } catch (err) {
     console.log("All users: ", err);
   }
