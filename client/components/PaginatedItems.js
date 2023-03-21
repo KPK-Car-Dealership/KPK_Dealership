@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 
 
@@ -23,11 +25,15 @@ function Items({ currentItems }) {
           //   <img src={car.image} alt="car" width="250" height="250"></img>
           // </div>
 
-          <Card sx={{ m:2, height: 340, maxWidth: 845, display: 'flex', flexDirection: 'row' }}>
-            <CardMedia
-              sx={{ width: 440 }}
-              image={car.image}
-            />
+          <Card sx={{ m: 2, height: 340, maxWidth: 845, display: 'flex', flexDirection: 'row' }}>
+            <CardActionArea>
+              <CardMedia
+                sx={{ width: 440 }}
+                image={car.image}
+                component="img"
+              />
+            </CardActionArea>
+
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
                 {car.year} {car.make} {car.model}
@@ -43,9 +49,13 @@ function Items({ currentItems }) {
               </Typography>
 
 
-              <CardActions sx={{flex: '1 0 auto'}} >
+              <CardActions sx={{ flex: '1 0 auto' }} >
                 <Button variant="outlined" size="small">Calculate Payment</Button>
-                <Button variant="outlined" size="small">Favorite</Button>
+                {/* <Button variant="outlined" color="warning" size="medium">Favorite </Button> */}
+                <Fab variant="extended" size="medium" color="error" aria-label="like">
+                  <FavoriteIcon sx={{ mr: 1 }} />
+                  Favorite
+                </Fab>
               </CardActions>
             </CardContent>
           </Card>

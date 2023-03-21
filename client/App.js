@@ -8,7 +8,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-import ReactLoading from 'react-loading';
+import {ReactLoading} from 'react-loading';
 
 
 // const TOKEN = process.env.REACT_APP_TOKEN;
