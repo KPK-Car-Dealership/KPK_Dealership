@@ -78,10 +78,10 @@ const confirmAdmin = async (req, res, next) => {
         if (verifyAdmin) {
           let adminAccount = await Admin.findOrCreate({
             where: {
-              username: req.user.username,
-              name: req.user.name,
-              password: req.user.password,
-              email: req.user.email,
+              username: req.user.newUser.username,
+              name: req.user.newUser.name,
+              password: req.user.newUser.password,
+              email: req.user.newUser.email,
             },
           });
           // Adds admin object to req object. req.admin is checked in the route to verify this process has been completed
