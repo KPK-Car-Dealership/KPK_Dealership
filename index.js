@@ -119,8 +119,9 @@ app.post("/user/register", async (req, res, next) => {
         password: hashedPw,
         confirmPassword: hashedPw,
       });
+      const token = jwt.sign({ newUser }, JWT_SECRET, { expiresIn: "1w" });
 
-      res.send({ newUser });
+      res.send({ newUser, token });
     } else {
       throw new Error("User already exists");
     }
